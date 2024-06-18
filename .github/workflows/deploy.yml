@@ -27,8 +27,4 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
-            export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh
-            npm install
-            npm run start
             bash ${{ secrets.VPS_TARGET_PATH }}/deploy.sh ${{ secrets.VPS_USERNAME }} ${{ secrets.VPS_HOST }} ${{ secrets.VPS_PASSWORD }} ${{ secrets.VPS_TARGET_PATH }}
