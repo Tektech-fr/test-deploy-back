@@ -11,14 +11,14 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: List files
+        id: list_files
         run: |
           echo "Listing files in current directory:"
-          ls -l
-          echo "::set-output name=files::$(ls)"
-        id: list_files
+          find . -type f
+          echo "::set-output name=files::$(find . -type f)"
 
       - name: Copy files to server
         uses: appleboy/scp-action@master
@@ -27,5 +27,7 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           password: ${{ secrets.VPS_PASSWORD }}
           key: ${{ secrets.VPS_KEY }}
-          source: ${{ steps.list_files.outputs.files }}
+          source: "."
           target: /tmp/back-express
+          rm: true
+          tar_tmp_path: /tmp
