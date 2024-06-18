@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
 
       - name: List files
         id: list_files
@@ -21,7 +21,7 @@ jobs:
           echo "::set-output name=files::$(find . -type f)"
 
       - name: Copy files to server
-        uses: appleboy/scp-action@master
+        uses: appleboy/scp-action@v0.1.6
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
@@ -31,3 +31,4 @@ jobs:
           target: /tmp/back-express
           rm: true
           tar_tmp_path: /tmp
+          debug: true
