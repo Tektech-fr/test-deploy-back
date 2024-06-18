@@ -19,8 +19,13 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
           password: ${{ secrets.VPS_PASSWORD }}
-          source: "./"
-          target: "/tmp/back-express"
+          source: |
+            .
+            !.git
+            !.github
+            !node_modules
+            !package-lock.json
+            target: /tmp/back-express
 
       - name: Run deployment script on VPS
         uses: appleboy/ssh-action@master
