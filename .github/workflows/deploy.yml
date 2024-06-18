@@ -10,11 +10,12 @@ jobs:
       - name: Récupérer le code source
         uses: actions/checkout@v4
 
-      - name: Lancer le script sur le VPS
-        env:
-          VPS_USERNAME: ${{ secrets.VPS_USERNAME }}
-          VPS_HOST: ${{ secrets.VPS_HOST }}
-          VPS_TARGET_PATH: ${{ secrets.VPS_TARGET_PATH }}
-          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
-        run: |
-          rsync -av --exclude='.git' --exclude='.github' --exclude='.gitignore' ./ $VPS_USERNAME@$VPS_HOST:$VPS_TARGET_PATH
+      - name: Copier les fichiers vers le VPS
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          key: ${{ secrets.VPS_KEY }}
+          source: "."
+          target: ${{ secrets.VPS_TARGET_PATH }}
