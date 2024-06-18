@@ -26,5 +26,6 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
+          key: ${{ secrets.VPS_KEY }}
           source: ${{ steps.list_files.outputs.files }}
           target: /tmp/back-express
