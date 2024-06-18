@@ -17,7 +17,17 @@ jobs:
       - name: Installer les dépendances
         run: npm ci
 
-      - name: Lancer le script sur le VPS
+      - name: Archiver les fichiers
+        run: tar -czf archive.tar.gz .
+
+      - name: Transférer l'archive vers le VPS
+        uses: appleboy/scp-action@master
+        with:
+          source: "archive.tar.gz"
+          target: "${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:/tmp/archive.tar.gz"
+          password: ${{ secrets.VPS_PASSWORD }}
+
+      - name: Déployer les fichiers sur le VPS
         uses: appleboy/ssh-action@master
         with:
           username: ${{ secrets.VPS_USERNAME }}
@@ -25,4 +35,5 @@ jobs:
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
             cd ${{ secrets.VPS_TARGET_PATH }}
-            echo ${{ secrets.VPS_HOST }} > test.txt
+            tar -xzf /tmp/archive.tar.gz
+            rm /tmp/archive.tar.gz
