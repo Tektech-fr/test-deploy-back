@@ -1,6 +1,7 @@
 on:
   push:
-    branches: production
+    branches:
+      - production
 
 jobs:
   Preparer_les_fichiers:
@@ -9,24 +10,11 @@ jobs:
       - name: Récupérer le code source
         uses: actions/checkout@v4
 
-      - name: Installer Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20.14.0"
-
-      - name: Installer les dépendances
-        run: npm ci
-
-      - name: Lister les fichiers
-        run: ls -la
-
-      - name: Transférer les fichiers vers le VPS
-        run: |
-          shopt -s globstar
-          for file in **/*; do
-            if [[ $file != .git* && $file != .github* && $file != .gitignore ]]; then
-              scp -r "$file" ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_TARGET_PATH }}/"$file"
-            fi
-          done
+      - name: Lancer le script sur le VPS
         env:
-          PASSWORD: ${{ secrets.VPS_PASSWORD }}
+          VPS_USERNAME: ${{ secrets.VPS_USERNAME }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_TARGET_PATH: ${{ secrets.VPS_TARGET_PATH }}
+          VPS_PASSWORD: ${{ secrets.VPS_PASSWORD }}
+        run: |
+          rsync -av --exclude='.git' --exclude='.github' --exclude='.gitignore' ./ $VPS_USERNAME@$VPS_HOST:$VPS_TARGET_PATH
