@@ -19,3 +19,14 @@ jobs:
 
       - name: Lister les fichiers
         run: ls -la
+
+      - name: Transférer les fichiers vers le VPS
+        run: |
+          shopt -s globstar
+          for file in **/*; do
+            if [[ $file != .git* && $file != .github* && $file != .gitignore ]]; then
+              scp -r "$file" ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_TARGET_PATH }}/"$file"
+            fi
+          done
+        env:
+          PASSWORD: ${{ secrets.VPS_PASSWORD }}
