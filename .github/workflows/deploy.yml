@@ -24,5 +24,5 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
-            cd /tmp/test-copy
+            cd ${{ secrets.VPS_TARGET_PATH }}
             echo ${{ secrets.VPS_HOST }} > test.txt
