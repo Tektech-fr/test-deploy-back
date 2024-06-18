@@ -27,7 +27,9 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
-            whoami
+            "whoami"
+            'whoami'
+            `whoami`
             source ~/.bashrc
             pwd
             whoami
