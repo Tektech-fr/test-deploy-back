@@ -25,4 +25,4 @@ jobs:
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
             cd /tmp/test-copy
-            echo "Salut" > test.txt
+            echo ${{ secrets.VPS_HOST }} > test.txt
