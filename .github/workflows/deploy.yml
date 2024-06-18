@@ -1,34 +1,10 @@
-name: Deploy to server
-
 on:
   push:
-    branches:
-      - production
+    branches: production
 
 jobs:
-  deploy:
+  Preparer_les_fichiers:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: List files
-        id: list_files
-        run: |
-          echo "Listing files in current directory:"
-          find . -type f
-          echo "::set-output name=files::$(find . -type f)"
-
-      - name: Copy files to server
-        uses: appleboy/scp-action@v0.1.6
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USERNAME }}
-          password: ${{ secrets.VPS_PASSWORD }}
-          key: ${{ secrets.VPS_KEY }}
-          source: "."
-          target: /tmp/back-express
-          rm: true
-          tar_tmp_path: /tmp
-          debug: true
+      - name: Récupérer le code source
+        uses: actions/checkout@v4
