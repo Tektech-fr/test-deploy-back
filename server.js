@@ -9,7 +9,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/toto", (req, res) => {
-  res.send("je suis Toto!");
+  res.send("je suis pasd tot!");
 });
 
 app.listen(port, () => {
