@@ -3,7 +3,7 @@ name: Deploy to VPS
 on:
   push:
     branches:
-      - production
+      - main
 
 jobs:
   build-and-deploy:
@@ -11,34 +11,22 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - name: Copy files to VPS
+        uses: appleboy/scp-action@master
         with:
-          node-version: 20
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          source: "./"
+          target: "/tmp/back-express"
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Deploy to VPS
+      - name: Run deployment script on VPS
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
-          port: 22
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
-            if [ ! -d "/var/www/tests/back/.git" ]; then
-                cd /var/www/tests/back
-                git init
-                git remote add origin https://github.com/Tektech-fr/test-deploy-back.git
-                git pull origin production
-                npm install
-                pm2 start server.js --name "SERVER"
-            else
-                cd /var/www/tests/back
-                git pull
-                npm install
-                pm2 restart SERVER
-            fi
+            mv /tmp/back-express/* /var/www/tests/back
