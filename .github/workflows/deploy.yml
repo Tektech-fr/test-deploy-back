@@ -27,10 +27,4 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
-            "whoami"
-            'whoami'
-            `whoami`
-            source ~/.bashrc
-            pwd
-            whoami
             bash ${{ secrets.VPS_TARGET_PATH }}/deploy.sh ${{ secrets.VPS_USERNAME }} ${{ secrets.VPS_HOST }} ${{ secrets.VPS_PASSWORD }} ${{ secrets.VPS_TARGET_PATH }}
