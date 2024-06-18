@@ -13,9 +13,18 @@ jobs:
       - name: Copier les fichiers vers le VPS
         uses: appleboy/scp-action@master
         with:
-          host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
+          host: ${{ secrets.VPS_HOST }}
           password: ${{ secrets.VPS_PASSWORD }}
           key: ${{ secrets.VPS_KEY }}
           source: "."
           target: ${{ secrets.VPS_TARGET_PATH }}
+
+      - name: Lancer le serveur
+        uses: appleboy/ssh-action@master
+        with:
+          username: ${{ secrets.VPS_USERNAME }}
+          host: ${{ secrets.VPS_HOST }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          script: |
+            bash ./deploy.sh ${{ secrets.VPS_USERNAME }} ${{ secrets.VPS_HOST }} ${{ secrets.VPS_PASSWORD }}
