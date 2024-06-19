@@ -5,7 +5,21 @@ const app = express();
 const port = 3000;
 
 app.get("/", (req, res) => {
-  res.send("Salut depuis mon back Express!");
+  res.send(`
+    <html>
+      <head>
+        <style>
+          body {
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+          }
+        </style>
+      </head>
+      <body>
+        <p>Bonjour, ce back vous est diligemment offert par Express !</p>
+      </body>
+    </html>
+  `);
 });
 
 app.get("/toto", (req, res) => {
