@@ -9,8 +9,19 @@ app.get("/", (req, res) => {
     <html>
       <head>
         <style>
+          :root {
+            color-scheme: light dark;
+          }
+          
           body {
-            font-size: 24px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          p {
+            font-size: 2rem;
             font-family: Arial, sans-serif;
           }
         </style>
