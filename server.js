@@ -1,43 +1,11 @@
 const express = require("express");
+const cors = require("cors");
+const usersRoutes = require("./routes/usersRoutes");
 
 const app = express();
+app.use(cors());
+app.use(express.json());
+app.use("/users", usersRoutes);
 
-const port = 3000;
-
-app.get("/", (req, res) => {
-  res.send(`
-    <html>
-      <head>
-        <style>
-          :root {
-            color-scheme: light dark;
-          }
-          
-          body {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          }
-
-          p {
-            font-size: 2rem;
-            font-family: Arial, sans-serif;
-          }
-        </style>
-      </head>
-      <body>
-        <p>Bonjour, ce back vous est diligemment offert par Express !</p>
-        <p>Si vous êtes de la Wild, vous êtes des BG.</p>
-      </body>
-    </html>
-  `);
-});
-
-app.get("/toto", (req, res) => {
-  res.json({ message: "je suis pas Toto!" });
-});
-
-app.listen(port, () => {
-  console.log(`Serveur démarré sur http://localhost:${port}`);
-});
+const PORT = process.env.PORT || 3200;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
