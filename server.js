@@ -28,6 +28,7 @@ app.get("/", (req, res) => {
       </head>
       <body>
         <p>Bonjour, ce back vous est diligemment offert par Express !</p>
+        <p>Si vous êtes de la Wild, vous êtes des BG.</p>
       </body>
     </html>
   `);
